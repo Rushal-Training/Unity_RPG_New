@@ -6,11 +6,6 @@ namespace RPG.Core
     {
         [SerializeField] Transform target;
 
-        void Start()
-        {
-
-        }
-
         void LateUpdate()
         {
             transform.position = target.position;
