@@ -13,7 +13,7 @@ namespace RPG.Control
 		[SerializeField] float waypointTolerance = 1f;
 		[SerializeField] float waypointDwellTime = 2f;
 		[Range(0, 1)][SerializeField] float patrolSpeedFraction = 0.2f;
-		[SerializeField] PatrolPath patrolPath;
+		[SerializeField] PatrolPath patrolPath = null;
 
 		Fighter fighter;
 		GameObject player;

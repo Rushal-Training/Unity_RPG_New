@@ -24,6 +24,14 @@ namespace RPG.Movement
             UpdateAnimator();
         }
 
+        private void UpdateAnimator()
+        {
+            Vector3 velocity = navMeshAgent.velocity;
+            Vector3 localVelocity = transform.InverseTransformDirection(velocity);
+            float speed = localVelocity.z;
+            GetComponent<Animator>().SetFloat("forwardSpeed", speed);
+        }
+
         public void StartMoveAction( Vector3 destination, float speedFraction )
         {
             GetComponent<ActionScheduler>().StartAction( this );
@@ -40,14 +48,6 @@ namespace RPG.Movement
         public void Cancel()
         {
             navMeshAgent.isStopped = true;
-        }
-
-        private void UpdateAnimator()
-        {
-            Vector3 velocity = navMeshAgent.velocity;
-            Vector3 localVelocity = transform.InverseTransformDirection( velocity );
-            float speed = localVelocity.z;
-            GetComponent<Animator>().SetFloat( "forwardSpeed", speed );
         }
     }
 }

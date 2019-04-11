@@ -67,11 +67,11 @@ namespace RPG.Combat
             return Vector3.Distance( target.transform.position, transform.position ) < weaponRange;
         }
 
-		private void StopAttack()
-		{
-			GetComponent<Animator>().ResetTrigger( "attack" );
-			GetComponent<Animator>().SetTrigger( "stopAttack" );
-		}
+        private void StopAttack()
+        {
+            GetComponent<Animator>().ResetTrigger("attack");
+            GetComponent<Animator>().SetTrigger("stopAttack");
+        }
 
 		// Start public methods
 		public bool CanAttack( GameObject combatTarget )
@@ -92,6 +92,7 @@ namespace RPG.Combat
 		{
 			StopAttack();
 			target = null;
-		}		
+			mover.Cancel();
+		}
 	}
 }
