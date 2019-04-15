@@ -2,6 +2,7 @@
 using RPG.Movement;
 using RPG.Combat;
 using RPG.Core;
+using UnityEngine.EventSystems;
 
 namespace RPG.Control
 {
@@ -21,6 +22,9 @@ namespace RPG.Control
 
 			if ( InteractWithCombat() ) return;
             if ( InteractWithMovement() ) return;
+
+            //if (EventSystem.current.IsPointerOverGameObject()) return;
+
             print( "Nothing to do." );
         }
 

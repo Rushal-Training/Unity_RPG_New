@@ -23,7 +23,7 @@
             "vitality": 4
         },
         "description": "It's a stick",
-        "stackable": false,
+        "stackable": true,
         "rarity": 6,
         "slug": "the_great_stick"
     }
