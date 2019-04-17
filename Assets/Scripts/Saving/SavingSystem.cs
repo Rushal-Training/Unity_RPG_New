@@ -1,6 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
 using UnityEngine;
 
 namespace RPG.Saving
@@ -9,15 +12,48 @@ namespace RPG.Saving
     {
         public void Save(string saveFile)
         {
-            print("Saving to " + GetPathFromSaveFile(saveFile));
+			string path = GetPathFromSaveFile( saveFile );
+			print( "Saving to " + path );
+
+			using ( FileStream stream = File.Open( path, FileMode.Create ) )
+			{
+				BinaryFormatter formatter = new BinaryFormatter();
+				formatter.Serialize( stream, CaptureState() );
+			}				
         }
 
-        public void Load(string saveFile)
+		public void Load(string saveFile)
         {
-            print("Loading " + GetPathFromSaveFile(saveFile));
-        }
+			string path = GetPathFromSaveFile( saveFile );
+			print("Loading " + path);
 
-        private string GetPathFromSaveFile(string saveFile)
+			using ( FileStream stream = File.Open( path, FileMode.Open ) )
+			{
+				BinaryFormatter formatter = new BinaryFormatter();
+				RestoreState(formatter.Deserialize( stream ));
+			}
+		}
+
+		private object CaptureState()
+		{
+			Dictionary<string, object> state = new Dictionary<string, object>();
+			foreach ( SavableEntity savable in FindObjectsOfType<SavableEntity>())
+			{
+				state[savable.GetUniqueIdentifier()] = savable.CaptureState();
+			}
+			return state;
+		}
+
+		private void RestoreState( object state )
+		{
+			Dictionary<string, object> stateDict = (Dictionary<string, object>)state;
+			foreach ( SavableEntity savable in FindObjectsOfType<SavableEntity>() )
+			{
+				savable.RestoreState( stateDict[savable.GetUniqueIdentifier()] );
+			}
+		}
+
+		private string GetPathFromSaveFile(string saveFile)
         {
             return Path.Combine(Application.persistentDataPath, saveFile + ".sav");
         }

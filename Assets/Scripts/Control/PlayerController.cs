@@ -18,14 +18,19 @@ namespace RPG.Control
 
         void Update()
         {
-			if ( health.IsDead() ) return;
+			if ( EventSystem.current == null ) return;
+            if ( health.IsDead() ) return;
 
-			if ( InteractWithCombat() ) return;
-            if ( InteractWithMovement() ) return;
-
-            //if (EventSystem.current.IsPointerOverGameObject()) return;
-
-            print( "Nothing to do." );
+			if ( EventSystem.current.IsPointerOverGameObject() )
+			{
+                return;
+			}
+			else
+			{
+				if ( InteractWithCombat() ) return;
+				if ( InteractWithMovement() ) return;
+                print("Nothing to do.");
+            }
         }
 
         private bool InteractWithCombat()
